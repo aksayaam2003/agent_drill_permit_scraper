@@ -1,0 +1,12 @@
+Language: Python 3.11
+Web Framework: FastAPI (with Uvicorn ASGI server)
+Package Manager: UV (modern Python package installer)
+Key Libraries:
+AI/ML: OpenAI, Azure AI Inference, LiteLLM, OpenAI Agents
+Database: PostgreSQL (asyncpg, psycopg), MySQL (mysql-connector-python)
+Data Processing: Pandas, NumPy, Matplotlib, Plotly
+Async: AsyncIO, nest-asyncio
+Validation: Pydantic
+Caching: Redis
+Web Scraping: BeautifulSoup4
+Configuration: PyYAML, python-dotenv
