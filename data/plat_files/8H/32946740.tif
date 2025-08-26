@@ -1,0 +1,1307 @@
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="MTc1NjE5NTUwN0RTTWVFODZTTHgySW1SbXY3NndLQXZQbngwcWxMMVA1">
+	<head>
+    <title>NeuDocs Enterprise Oil and Gas Well Records Key Search</title>
+
+      <link rel="stylesheet" type="text/css" href="template/esd/tpl/main.css" />
+      <link rel="stylesheet" type="text/css" href="template/esd/tpl/jquery_ui.css" />
+<!--[if gte IE 8]><link type="text/css" rel="stylesheet" href="template/esd/tpl/workarounds_ie8.css" /><![endif]-->
+<!--[if IE 7]><link type="text/css" rel="stylesheet" href="template/esd/tpl/workarounds_ie7.css" /><![endif]-->
+
+      <script language="javascript" src="template/esd/tpl/jquery.js"></script>
+	  <script language="javascript" src="template/esd/tpl/jquery-migrate-1.2.1.js"></script>
+      <script language="javascript" src="template/esd/tpl/thickbox.js"></script>
+      <script language="javascript" src="template/esd/tpl/jquery.watermarkinput.js"></script>
+      <script language="javascript" src="template/esd/tpl/javascript_cookies.js"></script>
+      <script language="javascript" src="template/esd/tpl/jquery.tabSlideOut.v1.1.js"></script>
+      <script language="javascript" src="template/esd/tpl/jquery.tooltip.min.js"></script>
+      <script language="javascript" src="template/esd/tpl/contactESD.js"></script>
+			<script language="javascript" src="template/esd/tpl/jquery-ui-min.js"></script>
+			<script language="javascript" src="template/esd/tpl/jquery.hotkeys.js"></script>
+      <script language="javascript" src="template/esd/tpl/jquery.tablesorter.js"></script>
+      <script language="javascript" src="template/esd/tpl/moment.js"></script>
+        <script type="text/javascript">
+
+            var responses = {
+                SUCCESS: "success",
+                ERROR: "fail"
+            };
+            var BATESTAMP_TYPES = {
+	            NUMERIC: ["3"],
+	            TEXT: ["1", "2"]
+            };
+
+            var screenTop = 0;
+
+            var BATESTAMP_VALIDATION = {
+	            STATIC_TEXT: {
+		            code: "1",
+		            textSelector: "[id^='annotationText']",
+		            ignoreSelector: []
+	            },
+	            STATIC_DATE: {
+		            code: "2",
+		            textSelector: "[id^='annotationText']",
+		            ignoreSelector: []
+	            },
+	            AUTO_INC: {
+		            code: "3",
+		            textSelector: "[id^='annotationNumeric']",
+		            ignoreSelector: ["[id^='annotationNumericHelp']"]
+	            }
+            };
+			var csstype="external" //Specify type of CSS to use. "Inline" or "external"
+
+			var mac_css='body{font-size: 14pt; }';//if "inline", specify mac css here
+			var pc_css='body{font-size: 12pt; }'; //if "inline", specify PC/default css here
+
+			var mac_externalcss='template/esd/tpl/macstyle.css'; //if "external", specify Mac css file here
+			var pc_externalcss='template/esd/tpl/pcstyle.css';   //if "external", specify PC/default css file here
+
+			///////No need to edit beyond here////////////
+
+			var mactest=navigator.userAgent.indexOf("Mac")!=-1;
+			if (csstype=="inline"){
+				document.write('<style type="text/css">');
+				if (mactest)
+					document.write(mac_css);
+				else
+					document.write(pc_css);
+				document.write('</style>');
+			}
+			else if (csstype=="external")
+				document.write('<link rel="stylesheet" type="text/css" href="'+ (mactest? mac_externalcss : pc_externalcss) +'">');
+
+        </script>
+
+      <script language="javascript">
+
+      var g_protocol = 'https';
+      var g_esdsite = 'PUBLIC';
+      var g_storage_location_online = 'ONLINE';
+      var g_storage_location_nearline = 'NEARLINE';
+      var SESS_TIMEOUT = '5000';
+      var g_image_source_matches = false;
+      var g_image_source_satisfied = false;
+      var g_datafeed_select = false;
+      var g_users_have_to_reverify = [];
+      var g_userInputFields = [];
+      var g_keyin = [];
+
+      $(document).ready(function(){
+        if(window.location.href.indexOf("internalmail") == -1) {
+				  if($('#searchForm').length == 0) {
+            $("#skipContent").attr('href', '#searchResultsArea');
+          }
+        }
+        else {
+          $("#skipContent").attr('href', '#compose_btn');
+        }
+      });
+
+      </script>
+    <script language="javascript">
+
+				function logout(withoutComfirm){
+					var answer = false;
+					if(withoutComfirm)
+						answer = true;
+					else
+					answer = confirm('Are you sure you want to log out?');
+
+			if (answer == true) {
+				window.location.href = 'index.php?_module_=esd&_action_=logout';
+			}
+				}
+
+
+	function doFocus()
+	{
+	    var content = $('div.main-content.active');
+	    if ($('#resdetail').size() && !$('#resdetail').is(":empty")){
+	        content = $('#resdetail');
+            }
+            content.find('input:visible,select:visible,a:visible,button:visible').first().focus();
+		$('html, body').animate({
+		scrollTop: content.offset().top
+		}, 200);
+	}
+
+				function showContent(ele){
+					$(ele).removeClass('hiddenLabels');
+				}
+				function hideContent(ele){
+		$(ele).addClass('hiddenLabels');
+	}
+
+
+    </script>
+
+
+  </head>
+  <!--[if lte IE 10]> The current version of your browser is not supported. Please update your browser to continue using this application. <![endif]-->
+  <div id="masthead" style="font-weight:bold; font-size: 14px;">
+			<a id="logo" class="changeUrl" href="index.php?_module_=esd&_action_=keysearch&profile=17">
+      <img src="template/esd/tpl/image/logos/neubus_logo_masthead.png" class="logo" alt="NeuDocs Enterprise logo: Click to go home" />
+    </a>
+
+        <div style="clear:both"></div>
+  </div>
+  <link type="image/x-icon" href="template/esd/tpl/image/favicon.ico" rel="shortcut icon"/>
+  <link type="image/x-icon" href="template/esd/tpl/image/favicon.ico" rel="icon"/>
+
+<script language="javascript" src="template/esd/tpl/xmlhttp.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery-JSON.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery.rotate.1-1.js"></script>
+
+<script language="javascript" src="template/esd/tpl/jquery.ui.widget.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery.iframe-transport.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery.fileupload.js"></script>
+
+<script language="javascript" src="template/esd/tpl/main.js"></script>
+<script language="javascript" src="template/esd/tpl/bootstrap.min-tab.js"></script>
+<script language="javascript" src="template/esd/tpl/bootstrap-tab.js"></script>
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/bootstrap.min-tab.css" />
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/bootstrap-tab.css" />
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/bootstrap-tab-fix.css" />
+<script language="javascript" src="template/esd/tpl/tabs.js"></script>
+
+<script language="javascript" src="template/esd/tpl/doc.js"></script>
+<script language="javascript" src="template/esd/tpl/keysearch.js"></script>
+<script language="javascript" src="template/esd/tpl/ScannerControls.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery.table2CSV.js"></script>
+
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/jquery.bxslider.css" />
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/jquery.bxslider.fix.css" />
+<script type="text/javascript" src="template/esd/tpl/jquery.bxslider.js"></script>
+<script type="text/javascript" src="template/esd/tpl/jquery.bxslider.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="template/esd/tpl/simplePagination.css" />
+<script language="javascript" src="template/esd/tpl/jquery.simplePagination.js"></script>
+
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/bootstrap-fonts.css" />
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/uploader.css" />
+<link rel="stylesheet" type="text/css" href="template/esd/tpl/scan.css">
+<link type="text/css" href="template/esd/tpl/fonts/fontawesome/css/all.css" rel="stylesheet">
+
+<script language="javascript" src="template/esd/tpl/feedback.js"></script>
+
+<script language="javascript" src="template/esd/tpl/watchlist.js"></script>
+<script language="javascript" src="template/esd/tpl/history.js"></script>
+<!--<script language="javascript" src="template/esd/tpl/import.js"></script>-->
+<!--<script language="javascript" src="template/esd/tpl/downloads.js"></script>-->
+
+<script language="javascript" src="template/esd/tpl/jquery-ui-minv1.11.2.js"></script>
+<script language="javascript" src="template/esd/tpl/jquery.watermarkinput.js"></script>
+<script language="javascript">
+	// ESD-2083 refactor: move these globals to header.tpl
+	g_section508 = 0;
+	g_profile = '17';
+	g_baseProfile = '17';
+	g_username = 'publicuser';
+	g_password = '68461babf138014f252e64732ef3b1a0';
+	g_roles = ['ALLOWDOWNLOAD', 'SCROLLINGVIEW', ];
+	g_longProfiles = '1';
+	g_customView = '0';
+	g_pageOrderType = 'CUSTOM';
+	g_showScanID = '';
+	g_wqFlag = false;
+	g_isFulltext = false;
+	g_boxTypeIcons = '1';
+	g_viewDoc = 'HIGH';
+	g_createDocDataFeed = 'ON';
+	g_pagination = '1';
+	g_profileCount = 24;
+	g_autodetect = '';
+	g_promoteView = '';
+	g_scrollView = 'ON';
+	g_fitWidth = 'Normal';
+	g_batestamp = '';
+	g_batestampDefaultType = '';
+	g_batestampValidation = '';
+	g_batestampDefault = '';
+	g_batestampTypes = '[{"batestamp_type_name":"Static","batestamp_type_code":"1","batestamp_type_regex":"","batestamp_type_example":"","profile_batestamp_width":null,"profile_batestamp_default":"t","profile_batestamp_mandatory":"f"}]';
+	g_batestampValidationExamples = '"MM/DD/YYYY", "a@email.com"';
+	g_multitask = 'OFF';
+	g_url = '';
+	g_status_field_id = 0;
+	g_DWTProductKey = 'f0068NQAAACibkqYRIkTp/6FAbJ+67i13Hh47sndwybdevLtinkC2FKmrNIdeD62S8dX7SK80aqWZI1Jt0aVSfNJvf1llnn4=;A7CE9618B99C4BB5E5BBE344949286544E0B8CBD357505E84CEAC909B945F83DA41D67CA28B769593719CD021AC4E9DA3692CDAB76195443BC2744840BC10F13A7C7B0A4DACDB0E2019D3ECCAFE3656E72C5E6360EB2B9EB5C3EFBE433B864E721CCAD9DDC596D693652AB3F5221A1228F';
+	g_max_file_uploads = 100;
+	g_storage_location_nearline = 'NEARLINE';
+	g_esd_site = 'PUBLIC';
+
+	$(document).ready(function() {
+	});
+
+
+  function AXOrNull(progId) {
+    try {
+      var at=new ActiveXObject(progId);
+      return true;
+    }
+    catch (ex) {
+      return false;
+    }
+  }
+
+</script>
+
+<body>
+<noscript>&lt;br&gt;&lt;br&gt; Your browser must support javascript.  </noscript>
+<div id="priTabs" class="tabBar mainTabs" style="white-space:nowrap;">
+
+<div class="button tab" id="start">
+  <a href="#" style="font-color:#000;font-weight:bolder">
+
+Programs    <img src="template/esd/tpl/image/icons/icon_arrowdown.png" alt="context menu arrow icon" />
+  </a>
+</div>
+
+
+<div class="contextMenu" id="profileMenu" style="left: 0px; display: none;"><dl><dt style="font-weight:normal"><a href="#" id="menu3" data-profile="3" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Surface Commingling Permits (P-17)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu3" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=3">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=4">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu5" data-profile="5" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Disposal Permits (W-14)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu5" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=5">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=6">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu7" data-profile="7" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Injection-Storage Test Reports&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu7" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=7">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=8">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu9" data-profile="9" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Dry Holes&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu9" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=9">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=33">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu11" data-profile="11" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Oil & Gas Hearings&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu11" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=11">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=34">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu12" data-profile="12" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Pipeline Permits (T-4)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu12" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=12">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=35">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu13" data-profile="13" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Gas Utility Annual Report&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu13" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=13">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=36">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu14" data-profile="14" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Gas Services Dockets&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu14" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=14">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=37">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu15" data-profile="15" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Well Log (WL)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu15" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=15">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu17" data-profile="17" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Oil and Gas Well Records&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu17" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=17">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu18" data-profile="18" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Surface Coal Mining Application&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu18" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=18">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=22">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu19" data-profile="19" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Surface Coal Mining Correspondence&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu19" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=19">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=21">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu20" data-profile="20" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Injection/Disposal & Reservoir Gas Storage Permits (H-1)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu20" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=20">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=41">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu23" data-profile="23" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Groundwater Protection Determination Letters&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu23" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=23">Key Search</a></dt><dt style="font-weight:normal"><a href="index.php?_module_=fulltext&_action_=index&profile=24">Full Text</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu27" data-profile="27" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> District Office&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu27" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=27">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu28" data-profile="28" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Skim Oil Reports (P-18)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu28" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=28">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu29" data-profile="29" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Transportation/Storage Reports (T-1)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu29" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=29">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu45" data-profile="45" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> RRC Site Remediation&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu45" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=45">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu53" data-profile="53" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Hydrogen Sulfide (H-9)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu53" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=53">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu77" data-profile="77" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> P5 Organization Report&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu77" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=77">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu81" data-profile="81" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Brine Mining Permits (H-2)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu81" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=81">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu82" data-profile="82" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Hydrocarbon Storage Cavern Permits (H-4)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu82" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=82">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu83" data-profile="83" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Historical Single Signature P-4&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu83" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=83">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu84" data-profile="84" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Microfilm&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu84" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=84">Key Search</a></dt></dl></div></dd><dt style="font-weight:normal"><a href="#" id="menu96" data-profile="96" class="submenuItem"><img src="./template/esd/tpl/image/icons/icon_arrow_right.png" alt="context menu arrow icon" style="float: right; border: 0px; margin-left: 5px;" /> Brine Mining & Cavern Storage Report (H-10H)&nbsp;&nbsp;&nbsp;</a></dt><dd><div class="contextMenu" id="submenu96" style="display: none;"><dl><dt style="font-weight:normal"><a href="index.php?_module_=esd&_action_=keysearch&profile=96">Key Search</a></dt></dl></div></dd></dl><hr /><a href="#" class="close" style="font-size:11px; opacity:inherit;" onClick="">[close]</a></div>
+
+</div>
+
+
+
+	<div class="tab-content">
+
+		<!-- Keysearch Tab -->
+		<div class="main-content tab-pane active" id="keysearch">
+			<input id="pSess_userId" value="" type="hidden">
+			<input id="pSess_username" value="" type="hidden">
+			<input id="pSess_password" value="" type="hidden">
+			<input id="pSess_ip" value="" type="hidden">
+			<input id="section508" value="0" type="hidden">
+
+
+			<form id="formToSearch" method="get" name="search" action="" onsubmit="return false;">
+        <input type="hidden" name="csrf_token" value="MTc1NjE5NTUwN0RTTWVFODZTTHgySW1SbXY3NndLQXZQbngwcWxMMVA1">
+			<div id="searchForm" class="hideOnDocLoad">
+					<h1 style="left:0px;">Oil and Gas Well Records &gt; Key Search</h1>
+					<hr />
+			<div class="formNote">
+						<span class="formNoteWildCard">
+				<img src="template/esd/tpl/image/icons/icon_wildcard.png" alt="wildcard (*) permitted" />
+				= wildcard (*) permitted.
+						</span>
+			&nbsp;
+			<span class="error searchErrorMsg" style="color:#C00000"></span>
+			</div>
+
+			<table cellpadding="0" cellspacing="0" class="searchFormTable">
+			<tr><input type="hidden" id="dateDATERANGE" /><td><label for='districtDROPDOWN'>District</label></td><td style='margin-right: 20px'><div class="neuControl" id="district" neutype="DROPDOWN"><select id="districtDROPDOWN" name="district"><option value="none"></option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="6E">6E</option><option value="7B">7B</option><option value="7C">7C</option><option value="08">08</option><option value="8A">8A</option><option value="09">09</option><option value="10">10</option><option value="20">20</option></select><span class="comment">&nbsp;&nbsp;<a href="#" onClick="javascript: window.open('http://rrc.texas.gov/about-us/locations/oil-gas-counties-districts/', 'OGICD','directories=no,scrollbars=yes,location=yes,resizable=yes,status=yes,toolbar=yes,width=800,height=600');">County/District List</a></span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td><input type="hidden" id="dateDATERANGE" /><td><label for='field_noTEXT'>Field Number</label></td><td style='margin-right: 20px'><div class="neuControl" id="field_no" neutype="TEXT"><input id="field_noTEXT" class="enterkey" type="text" maxlength="8" size="8" value="" /><span class="comment">&nbsp;&nbsp;* Numeric only; leading zeroes will be automatically added</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td></tr><tr><input type="hidden" id="dateDATERANGE" /><td><label for='lease_numberTEXT'>Oil Lease/Gas ID</label></td><td style='margin-right: 20px'><div class="neuControl" id="lease_number" neutype="TEXT"><input id="lease_numberTEXT" class="enterkey" type="text" maxlength="" size="" value="" /><span class="comment">&nbsp;&nbsp;* Exact match/numeric only</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td><input type="hidden" id="dateDATERANGE" /><td><label for='field_nameTEXT'>Field Name</label></td><td style='margin-right: 20px'><div class="neuControl" id="field_name" neutype="TEXT"><input id="field_nameTEXT" class="enterkey" type="text" maxlength="" size="" value="" /><span class="wildCard">&nbsp;&nbsp;<img alt="wildcard (*) permitted" src="template/esd/tpl/image/icons/icon_wildcard.png" title="wildcard (*) permitted" /></span><span class="comment">&nbsp;&nbsp;* No punctuation</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td></tr><tr><input type="hidden" id="dateDATERANGE" /><td><label for='api_ftTEXT'>API Number</label></td><td style='margin-right: 20px'><div class="neuControl" id="api_ft" neutype="TEXT"><input id="api_ftTEXT" class="enterkey" type="text" maxlength="8" size="8" value="" /><span class="comment">&nbsp;&nbsp;* Exact match/numeric only</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td><input type="hidden" id="dateDATERANGE" /><td><label for='countyTEXT'>County Name</label></td><td style='margin-right: 20px'><div class="neuControl" id="county" neutype="TEXT"><input id="countyTEXT" class="enterkey" type="text" maxlength="" size="" value="" /><span class="wildCard">&nbsp;&nbsp;<img alt="wildcard (*) permitted" src="template/esd/tpl/image/icons/icon_wildcard.png" title="wildcard (*) permitted" /></span><span class="comment">&nbsp;&nbsp;* No punctuation&nbsp;&nbsp; <a href="#" onClick="javascript:window.open('https://www.rrc.texas.gov/oil-and-gas/research-and-statistics/operator-information/oil-gas-directory-operator-contact/', 'OGICD2','directories=no,scrollbars=yes,location=yes,resizable=yes,status=yes,toolbar=yes,width=800,height=600');">Oil &amp; Gas Directory</a></span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td></tr><tr><input type="hidden" id="dateDATERANGE" /><td><label for='lease_nameTEXT'>Lease Name</label></td><td style='margin-right: 20px'><div class="neuControl" id="lease_name" neutype="TEXT"><input id="lease_nameTEXT" class="enterkey" type="text" maxlength="" size="" value="" /><span class="wildCard">&nbsp;&nbsp;<img alt="wildcard (*) permitted" src="template/esd/tpl/image/icons/icon_wildcard.png" title="wildcard (*) permitted" /></span><span class="comment">&nbsp;&nbsp;* No punctuation</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td><input type="hidden" id="dateDATERANGE" /><td><label for='operator_nameTEXT'>Operator Name</label></td><td style='margin-right: 20px'><div class="neuControl" id="operator_name" neutype="TEXT"><input id="operator_nameTEXT" class="enterkey" type="text" maxlength="" size="" value="" /><span class="wildCard">&nbsp;&nbsp;<img alt="wildcard (*) permitted" src="template/esd/tpl/image/icons/icon_wildcard.png" title="wildcard (*) permitted" /></span><span class="comment">&nbsp;&nbsp;* No punctuation; except & and -</span><input type="hidden" class="oldvalue" value="" />&nbsp;&nbsp;</div></td></tr>     			</table>
+
+			<div style="clear:both"></div>
+          <br />
+
+          <a href="#" style="color:#A80000; font-weight:bolder;" id="advancedBtn" onclick="hideShowMenu('advanced_menu'); return false;">
+						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="font-size:15px;"></span>
+						Advanced
+          </a>&nbsp;&nbsp;&nbsp;
+
+					<div style="clear:both"></div>
+			<hr style="width: 80%; float:left;"/>
+					<div style="clear:both"></div>
+
+          <div id="advanced_menu" style="background-color:transparent; text-align:left; display:none;">
+		<label for="include_chk"><input type="checkbox" class="advanced" id="include_chk" />Include Empty Value</label><br/>&nbsp;
+              <label for='includeDropdown'>Field Name:</label><select id='includeDropdown'><option value='district'>District</option><option value='field_no'>Field Number</option><option value='lease_number'>Oil Lease/Gas ID</option><option value='field_name'>Field Name</option><option value='api_ft'>API Number</option><option value='county'>County Name</option><option value='lease_name'>Lease Name</option><option value='operator_name'>Operator Name</option></select>            <br /><br />
+		<label for="exclude_chk"><input type="checkbox" class="advanced" id="exclude_chk" />Exclude Value</label><br/>&nbsp;
+              <label for='excludeDropdown'>Field Name:</label><select id='excludeDropdown' onchange='showHideWideCard(); return false;'><option value='district' name='f'>District</option><option value='field_no' name='f'>Field Number</option><option value='lease_number' name='f'>Oil Lease/Gas ID</option><option value='field_name' name='t'>Field Name</option><option value='api_ft' name='f'>API Number</option><option value='county' name='t'>County Name</option><option value='lease_name' name='t'>Lease Name</option><option value='operator_name' name='t'>Operator Name</option></select>              <label for="excludeValue">Value:</label>&nbsp;
+							<input type="text" class="advanced" id="excludeValue" />
+              <span class="wildCard" id="wildCardSpan" style="display:none;">
+                <img alt="wildcard (*) permitted" src="template/esd/tpl/image/icons/icon_wildcard.png" title="wildcard (*) permitted">
+              </span>
+            <br /><br />
+		<label for="recordDate_chk"><input type="checkbox" class="advanced" id="recordDate_chk" />Record Creation Date</label><br />&nbsp;
+							<label for="recordFromDate">From:</label>&nbsp;
+              <input type="text" class="advanced" id="recordFromDate"  maxlength="" size="10" value="" />
+              <label for="recordToDate">To:</label>&nbsp;
+              <input type="text" class="advanced" id="recordToDate" maxlength="" size="10" value="" />
+          </div>
+
+			<div class="formButtons" style="text-align:right; position:relative;">
+			<div class="searchMsg2" style="position: absolute; top: 6px; left: 0px; color: #800000; font-size: 12pt;"></div>
+			<div class="button">
+				<a href="#" id="docSearchButton">Search</a>
+			</div>
+			<div class="button">
+              <a href="#" id="formClearButton">Clear</a>
+			</div>
+			</div>
+			</div>
+			</form>
+
+			<!--ESD-624: make the error messages audible when searching -->
+			<div class="hiddenLabels" id="errorsInInputDiv"></div>
+
+		</div><!-- end keysearch tab -->
+
+			</div><!-- end tab-content -->
+
+	<div id="overSearchResults">
+		<div id="detailArea" style="display: none;">
+  <div id="searchResultsArea" class="hideOnDocLoad" style="padding-bottom: 40px; position: relative;">
+		<div style="text-align:center;">
+          <input type="hidden" value="" id="searchResultTotal"/>
+	<span class="errorMessage" id="searchResultsErrMsg"></span>
+    </div>
+    <span id="searchResultsCount">
+				Showing N of M Records
+      </span>
+    <div id="searchResultsStats">
+            <div id="custColumn">
+
+        <div class="buttonSmall">
+          <a href="#" id="visibleColumns">
+            Visible Columns
+            <img src="./template/esd/tpl/image/icons/icon_arrowdown.png" class="buttonIcon" alt="Change default field columns" />
+          </a>
+        </div>
+
+                <div id="colSelect" style="display: none; position: absolute;" class="contextMenu">
+          <span style="font-weight:bold;">Visible Column</span><hr />
+                                                                                                                                                  <label for="colCheckBox_district" style="display: block;">
+                <input type="checkbox" name="colCheckBox_district" fieldtype="DROPDOWN"
+                       checked="checked" id="colCheckBox_district" />
+                District
+              </label>
+                                                <label for="colCheckBox_field_no" style="display: block;">
+                <input type="checkbox" name="colCheckBox_field_no" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_field_no" />
+                Field Number
+              </label>
+                                                <label for="colCheckBox_lease_number" style="display: block;">
+                <input type="checkbox" name="colCheckBox_lease_number" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_lease_number" />
+                Oil Lease/Gas ID
+              </label>
+                                                <label for="colCheckBox_field_name" style="display: block;">
+                <input type="checkbox" name="colCheckBox_field_name" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_field_name" />
+                Field Name
+              </label>
+                                                                      <label for="colCheckBox_county" style="display: block;">
+                <input type="checkbox" name="colCheckBox_county" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_county" />
+                County Name
+              </label>
+                                                <label for="colCheckBox_lease_name" style="display: block;">
+                <input type="checkbox" name="colCheckBox_lease_name" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_lease_name" />
+                Lease Name
+              </label>
+                                                <label for="colCheckBox_operator_name" style="display: block;">
+                <input type="checkbox" name="colCheckBox_operator_name" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_operator_name" />
+                Operator Name
+              </label>
+                                                                                                                  <label for="colCheckBox_additional_info" style="display: block;">
+                <input type="checkbox" name="colCheckBox_additional_info" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_additional_info" />
+                Additional Info
+              </label>
+                                                <label for="colCheckBox_profile_type" style="display: block;">
+                <input type="checkbox" name="colCheckBox_profile_type" fieldtype="TEXT"
+                       checked="checked" id="colCheckBox_profile_type" />
+                Profile Type
+              </label>
+                                <hr />
+          <div style="text-align: center;">
+            <button class="action_save">Save</button>
+            &nbsp;&nbsp;
+            <button class="action_close" onblur="$('#record_1').focus();">Cancel</button>
+          </div>
+        </div>
+      </div>
+            <div id="searchResultsPageSize">
+        <label for="selectSize" style="display:inline">Load Size: </label>
+        <select id="selectSize">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+
+	  </div>
+
+      <span class="hiddenLabels" id="hiddenResultsCountSpan"></span>
+  <span id="searchResultsKeysearchInfo" style="margin-left: 10px; font-size: 8pt;">
+	(sort data by clicking on any column heading)
+      </span>
+
+    <table title="Search Results" id="searchResults" class="defaultGrid" summary="Search results based on search criteria"
+           cellpadding="0" cellspacing="0" border="1" style="margin-top: 5px; white-space: auto;">
+      <tr><td></td></tr>
+    </table>
+
+    <div id="loadIndicator" style="text-align: center;">
+      <img src="./template/esd/tpl/image/loadingCircular.gif"
+           alt="Search Results Are Loading" />
+    </div>
+
+    <div>
+      <label id="id_for_error_label" for="error_output"></label>
+      <input id="error_output" type="hidden" />
+    </div>
+
+    <div style="text-align:right; padding:20px 20px 30px 10px; display:block">
+		              <div style="float: left;" id="searchPagination"></div><div id="jump-to-page-cont" style="margin-left:20px; float: left;"><input type="text" name="results-go-to-page" id="results-go-to-page"/>&nbsp;&nbsp;<div id="results-go-to-page-btn" class="button short"><a href="#">Jump to page</a></div></div>
+
+          </div>
+
+    <div class="contextMenu" id="imageMenu" style="display: none; min-width:190px;">
+
+			<span id="noPages"></span>
+      <span id="view_record_section"></span>
+      <a href="#" class="action contextMenuClose" id="docAction_processed">
+        <img src="./template/esd/tpl/image/icons/icon_waiting.gif"
+             class="buttonIcon" alt="processing" />
+        <div style="display:inline">In Processing...</div>
+      </a>
+
+      <span id="view"><a id="ViewMenu" class="submenuItem">View</a></span>
+
+      <a href="#" class="action contextMenuClose" id="docAction_create">
+        <img src="./template/esd/tpl/image/icons/icon_view.png"
+             class="buttonIcon" alt="Create Record" />
+        Create This Record
+      </a>
+
+
+      <a href="#" class="action contextMenuClose" id="docAction_viewOversized">
+        <img src="./template/esd/tpl/image/icons/icon_view.png"
+             class="buttonIcon" alt="Load Oversized" />
+        View Oversized
+      </a>
+
+      <a href="#" class="action contextMenuClose" id="docAction_viewAttachments">
+        <img src="./template/esd/tpl/image/icons/icon_view.png"
+             class="buttonIcon" alt="Load Attachments" />
+        View Attachments
+      </a>
+
+      <a href="#" class="action contextMenuClose" id="docAction_viewText">
+        <img src="./template/esd/tpl/image/icons/icon_view.png"
+             class="buttonIcon" alt="Load Text" />
+        View Text
+      </a>
+
+
+
+
+      <span id="custom"></span>
+
+
+
+
+
+                  <a href="#" class="contextMenuClose close">
+        [close]
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="selectedrow"></div>
+
+<div id="resdetail"></div>
+
+<div id="pageSelection"></div>
+
+
+<div id="docFieldsModal" class="modal-dialog" style="width: 700px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Edit Indexing Fields</h2>
+    <div class="formArea" style="margin-bottom: 15px;">
+	<div style="float:left;">
+        <div class="button short"><a href="#" id="editFieldAutopopBtn">Pull From Data Feed</a></div>				<span class="wiat"><img alt="wait for data feed" height="16" id="dataFeedSpinner" src="template/esd/tpl/image/icons/icon_waiting.gif" style="display:none;" width="16" /></span>
+        <span class="errorMessage" id="dataFeedErrMsg"></span>
+      </div>
+      <div style="text-align: right; display:none">
+        <label for="editFieldAutopopCb">Data Feed</label>
+        <input type="checkbox" name="editFieldAutopopCb" id="editFieldAutopopCb" />
+      </div>
+			<div style="clear:both;"></div>
+      <table style="margin-left: auto; margin-right: auto;">
+      </table>
+    </div>
+    <div style="padding: 0px 60px;">
+      <div class="button short" style="float: right;">
+        <a href="#" class="save">
+          Save Changes
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="multiDocFieldsModal" class="modal-dialog" style="width: 700px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Edit <span id="multiHeader"></span></h2>
+    <div class="formArea" style="margin-bottom: 15px; max-height:300px; overflow:auto;">
+		<div style="text-aling:right;">
+        <div class="button short" id="addMultiRow">
+					<a href="#">
+						<img src="./template/esd/tpl/image/icons/esd-viewdoc-plus.png" alt="add row" class="buttonIcon" style="vertical-align:baseline;" /> Add Row
+					</a>
+				</div>
+      </div>
+	    <table style="margin-left: auto; margin-right: auto;">
+      </table>
+    </div>
+    <div style="padding: 0px 60px;">
+      <div class="button short" style="float: right;">
+        <a href="#" class="save">
+          Make Changes
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="docDeleteModal" class="modal-dialog" style="width: 600px; display: none;">
+  <div class="content">
+		 <div  style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+     </div>
+    <h2>Record Delete Confirmation</h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center;">
+      <span>
+        Are you sure you want to delete this record?
+      </span>
+    </div>
+    <div style="padding: 0px 60px;">
+      <div class="button short" style="float: right;">
+        <a href="#" class="delete">
+          Delete
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+  <div id="docArchiveModal" class="modal-dialog" style="width: 600px; display: none;">
+    <div class="content">
+      <div style="float:right; ">
+        <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+      </div>
+      <h2>Archive Record Confirmation</h2>
+      <div class="formArea" style="margin-bottom: 15px; text-align: center;">
+      <span>
+        Queueing this record for archiving will leave the record's key field data in place,
+        but the contents won't be viewable until the record is restored. Proceed?
+      </span>
+      </div>
+      <div style="padding: 0px 60px;">
+        <div class="button short" style="float: right;">
+          <a href="#" class="archive">
+            Ok
+          </a>
+        </div>
+        <div class="button short">
+          <a href="#" class="modalClose">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="promoteModal" class="modal-dialog" style="width: auto; min-width:650px; display: none;">
+  <div class="hiddenLabels">
+    <label for="targetProfile">Select a target profile</label>
+  </div>
+  <div class="content">
+		<div  style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Transfer Record</h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center;">
+						<div id="pageOrder" class="warning" style="display:none">*
+This document might merge to the top or bottom of the target program, depending on the target program setting.</div>
+      <span>
+        Target Program:
+      </span>
+      <select id="targetProfile">
+                    <option value="3">Surface Commingling Permits (P-17)</option>
+                    <option value="5">Disposal Permits (W-14)</option>
+                    <option value="7">Injection-Storage Test Reports</option>
+                    <option value="9">Dry Holes</option>
+                    <option value="11">Oil & Gas Hearings</option>
+                    <option value="12">Pipeline Permits (T-4)</option>
+                    <option value="13">Gas Utility Annual Report</option>
+                    <option value="14">Gas Services Dockets</option>
+                    <option value="15">Well Log (WL)</option>
+                    <option value="18">Surface Coal Mining Application</option>
+                    <option value="19">Surface Coal Mining Correspondence</option>
+                    <option value="20">Injection/Disposal & Reservoir Gas Storage Permits (H-1)</option>
+                    <option value="23">Groundwater Protection Determination Letters</option>
+                    <option value="27">District Office</option>
+                    <option value="28">Skim Oil Reports (P-18)</option>
+                    <option value="29">Transportation/Storage Reports (T-1)</option>
+                    <option value="45">RRC Site Remediation</option>
+                    <option value="53">Hydrogen Sulfide (H-9)</option>
+                    <option value="77">P5 Organization Report</option>
+                    <option value="81">Brine Mining Permits (H-2)</option>
+                    <option value="82">Hydrocarbon Storage Cavern Permits (H-4)</option>
+                    <option value="83">Historical Single Signature P-4</option>
+                    <option value="84">Microfilm</option>
+                    <option value="96">Brine Mining & Cavern Storage Report (H-10H)</option>
+              </select>
+      <br />
+      <label for="include_dynamic_text">Include Dynamic Text&nbsp;</label>
+      <input type="checkbox" value="" id="include_dynamic_text" name="include_dynamic_text"
+                           disabled
+             />
+    </div>
+    <div style="padding: 0px 60px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="promoteBut">
+          Transfer
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="promoteFieldsModal" class="modal-dialog" style="width: 650px; display: none;">
+  <div class="content">
+    <div style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+
+    <h2>Promote Record: Indexing Fields</h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center;">
+			      <table style="margin-left: auto; margin-right: auto;">
+      </table>
+    </div>
+    <div style="padding: 0px 60px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="promoteBut2">
+          Promote
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="transferTabModal" class="modal-dialog" style="width: 800px;">
+  <div class="content">
+    <h1>Transfer Tabs</h1></br>
+    <table>
+      <tr>
+        <th>From Tabs</th>
+        <th>Type</th>
+        <th></th>
+        <th>To Tabs</th>
+      </tr>
+      <tbody id="transferTabTable">
+
+      </tbody>
+    </table>
+
+    <div class="formButtons" style="text-align: right;">
+      <div class="button short">
+        <a href="#" id="promoteBut3">Commit</a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose"">Cancel</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="attachModal" class="modal-dialog">
+  <div class="content">
+		<div  style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+		<h2><span id="docHeader">Page Attachments</span></h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center; overflow: auto;">
+      <span id="attachStatus" style="font-size: 15pt;">
+      </span>
+      <span id="attachList">
+      </span>
+    </div>
+    <div style="padding: 0px 60px; text-align: center;">
+      <div class="button short" style="">
+        <a href="#" class="modalClose">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="scanModal" class="fullscreen-modal-dialog" style="display: none;">
+  <div class="content">
+    <div style="width:60%;display:inline-block;">
+    <h6 style="margin:5px;">Oil and Gas Well Records > <span id="scan_index_fields"></span><span id="scan_crumbs_extra"><!-- default value --> > Scan Document</span></h6>
+    </div>
+    <div style="float:right; width:40%;">
+		<div  style="float:right;">
+		<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+      </div>
+    </div>
+    <div style="clear:both"></div>
+
+    <div class="formArea" style="margin-bottom: 15px; text-align: center;">
+      <div id="scanModalPlugin"></div>
+    </div>
+    <div style="text-align: right;">
+      <div class="button short" style="">
+        <a href="#" class="modalClose">
+          Done
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="uploadModal" class="modal-dialog" style="width: 85%; height: 65%; min-width: 830px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+	<a href="#" class="modalClose"id="closeUploadModal"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Upload Document</h2>
+    <div class="upload_custom_message"></div>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center; padding: 15px;">
+      <form id="fileUpload" style="text-align: left;">
+        <input type="hidden" id="uploadMode" value="" />
+        <div style="display: none; text-align: center; margin-bottom: 20px;"><span class="errMsg errorMessage"></span></div>
+        <div style="position: relative; height: 120px; margin-top: 10px;">
+          <div id="uploadFileInput" class="fileinput" style="float: left;">
+           <div class="bot_add" id="btnAdd"><a href="#" id="addFiles">ADD FILES</a></div>
+           <div class="cover">&nbsp;</div>
+	         <input class="tabIgnore" type="file" name="files[]" multiple="multiple" id="addFiles1" tabindex="-1" />
+           <input class="tabIgnore" type="file" name="files[]" multiple="multiple" id="addFiles2" tabindex="-1" />
+             <div class="hiddenLabels">
+            <label for="addFiles1">Browse for file 1</label>
+            <label for="addFiles2">Browse for file 2</label>
+           </div>
+          </div>
+          <div class="bot_import"><a href="#" id="importFiles">IMPORT FILES</a></div>
+          <div class="bot_start"><a href="#" id="uploadAll">START UPLOAD</a></div>
+          <div class="bot_cancel"><a href="#" id="uploadStopAll">CANCEL UPLOAD</a></div>
+           <!-- D&D Zone-->
+           <br><br>
+           <div id="dropzone" class="uploader">
+                  <div>Drag &amp; Drop Files Here</div>
+           </div>
+        </div>
+        <div id="fileUploadIndicator" style="text-align: center; display: none;">
+          <img alt="Files are being added..." src="./template/esd/tpl/image/loadingCircular.gif">
+        </div>
+      </form>
+      <table id="uploadFiles" class="uploadDefaultGrid" cellspacing="0" cellpadding="0" style="text-align: left; margin: 15px; display: none; margin-left: auto; margin-right: auto; width:100%;">
+        <tbody></tbody>
+      </table>
+    </div>
+    <div style="text-align: right;">
+      <div class="button short" style="">
+        <a href="#" class="modalCheckClose">
+          Done
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="annotationHelpModal" class="modal-dialog subModal" style="width: 400px; height: 100px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+      <a href="#" class="modalClose"id="closeUploadModal"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+
+    <div>
+      <p>
+        Selecting <span id="batestamp_type_label"></span> provides 3 annotation fields:
+      </p>
+      <p>
+        The left field is the <strong>prefix</strong> for the annotation. <strong>Prefix</strong> text will be included
+        on each page of this uploaded file, before the <strong>incrementing number</strong>.
+        <strong>Prefix</strong> may be left blank
+      </p>
+      <p>
+        The center field is the <strong>incrementing number</strong>. Non-negative integers are the only allowed values
+        in this field. The first page of the uploaded file will have the entered number, and each subsequent page will
+        have a number one greater than the previous page. This program is configured to normalize these values to
+        <strong><span id="annotationWidthHelp"></span></strong>
+        digits.
+      </p>
+      <p>
+        The right field is the <strong>suffix</strong> for the annotation. <strong>Suffix</strong> text will be included
+        on each page of this uploaded file, after the <strong>incrementing number.</strong>
+        <strong>Suffix</strong> may be left blank.
+      </p>
+    </div>
+
+    <div style="text-align: right;">
+      <div class="button short" style="">
+        <a href="#" class="modalClose">
+          Done
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="setTagsModal" class="modal-dialog subModal" style="width: 800px; height: 600px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+	<a href="#" class="modalClose" onclick="hideSetTagsModal(); return false;"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Add/Remove Hashtags</h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: center; padding: 15px;">
+      <table id="set_tags_tbl" class="defaultGrid" cellpadding="0" cellspacing="0" border="1">
+        <thead>
+          <tr>
+					  <th style="text-align: center;">Hashtag Name</th>
+            <th style="text-align: center;"><input type="checkbox" class="toggleTagCheck" /></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div style="text-align: right;">
+      <div class="button short">
+        <a href="#" class="modalClose" onclick="saveTags(); return false;">
+          Save
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose" onclick="cancelTags(); return false;">
+          Cancel
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="workQueueModal" class="modal-dialog" style="width: 85%; height: 65%; min-width: 830px; left: 124px; top: 465px; display: none;">
+  <div class="content">
+    <div  style="float:right; ">
+	<a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+		<h2>Copy To Work Queue</h2>
+    <div class="formArea" style="margin-bottom: 15px; text-align: left;">
+			<h4 id="wqFieldsHeader">Fields</h4>
+			<div class="warning" style="margin-bottom:10px;"><ul></ul></div>
+      <table id="wqFields" style="width:100%;">
+      </table>
+			<hr/>
+			<h4 id="wqTabsHeader">Tabs</h4>
+			<table id="wqTabs" style="width:100%;">
+			</table>
+    </div>
+    <div style="padding: 0px 60px;">
+      <div id="workQueueSaveDiv" class="button short" style="float: right;">
+        <a href="#" id="workQueueSave">
+          Copy
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="renameTabModal" class="modal-dialog" style="width: 600px;">
+  <div class="content">
+		<div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+		<h2>Rename Tab: <span></span></h2>
+    <div class="formArea" style="text-align: center;">
+      <span class="errMsg errorMessage"></span>
+      <div style="margin-top:10px">
+        <label id="renameTabInfo" for="renameTab" style="font-weight:bold;">Please select a new tab name:</label>
+        <select id="renameTab" class="selectBox tabSelect"></select>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="renameTabSave">
+         Save
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="createNewTabModal" class="modal-dialog" style="width: 600px;">
+  <div class="content">
+		<div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+		<h2>Create Tab:</h2>
+    <div class="formArea" style="text-align: center;">
+      <span class="errMsg errorMessage"></span>
+      <div style="margin-top:10px">
+        <label id="createNewTabInfo" for="createNewTab" style="font-weight:bold;">Please select a new tab name:</label>
+        <select id="createNewTab" class="selectBox tabSelect"></select>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="createNewTabSave">
+         Save
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="createTabModal" class="modal-dialog" style="width: 600px;">
+  <div class="content">
+		<div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Create Tab:</h2>
+    <div class="formArea" style="text-align: center;">
+      <span class="errMsg errorMessage"></span>
+      <div style="margin-top:10px">
+        <label id="createTabInfo" for="createTabModalInput" style="font-weight:bold;">Please enter tab name:</label>
+        <input id="createTabModalInput" type="text"/>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="createTab">
+         Create
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="createSubtabModal" class="modal-dialog" style="width: 600px;">
+  <div class="content">
+		<div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Create Subtab:</h2>
+    <div class="formArea" style="text-align: center;">
+      <span class="errMsg errorMessage"></span>
+      <div style="margin-top:10px">
+        <label id="createSubtabInfo" for="createSubtabInput" style="font-weight:bold;">Please enter subtab name:</label>
+        <input maxlength="32" id="createSubtabModalInput" type="text"/>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="createSubtab">
+         Create
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="renameTransferTabModal" class="modal-dialog" style="width: 600px;">
+  <div class="content">
+    <div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Rename Tab:</h2>
+    <div class="formArea" style="text-align: center;">
+      <span class="errMsg errorMessage"></span>
+      <div style="margin-top:10px">
+        <label id="renameTransferTabInfo" for="renameTransferTabModalInput" style="font-weight:bold;">Please enter new tab name:</label>
+        <input id="renameTransferTabModalInput" type="text"/>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="renameTransferTab">
+          Rename
+        </a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="importFilesModal" class="modal-dialog subModal" style="width: 800px;">
+  <div class="content">
+    <div style="float:right;">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+	  <h1 style="font-size: 20px;">Import From My Documents</h1>
+    <input type="hidden" id="selectedCnt" value="0" />
+    <div class="formArea" style="margin-bottom: 15px;">
+      <div style="max-height: 300px; overflow: auto;">
+        <table id="shareDocsTable" class="defaultGrid" style="border-collapse: collapse; border:0px;">
+          <thead>
+            <th>&nbsp;</th>
+            <th>Name</th>
+            <th>Queued At</th>
+            <th>Status</th>
+            <th>Program</th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px; padding-top:10px;" id="importPagination"></div>
+    </div>
+    <div class="formButtons" style="text-align: right;">
+      <div class="button short">
+        <a href="#" id="saveImport">Import</a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose" onclick="cancelImport(); return false;">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="energyDepotModal" class="modal-dialog" style="width:600px;">
+  <div class="content">
+    <div style="float:right;">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h1 style="font-size: 20px;">Add to Energy Depot</h1>
+    <div class="formArea" style="margin-bottom: 15px;">
+      <p>
+              </p>
+      <label for="energy-depot-email">Enter Email Address:</label>
+      <br/>
+      <input type="text" id="energy-depot-email" placeholder="email@example.com"/><br/><br/>
+      <label for="energy-depot-email-confirm">Re-enter Email Address:</label>
+      <br/>
+      <input type="text" id="energy-depot-email-confirm" placeholder="email@example.com"/>
+      <strong><p style="color:red;" id="orderEmailError"></p></strong>
+
+      <p><i>If you log into Energy Depot using this email address, you will see orders made this way.</i></p>
+      <p>Results:</p>
+      <ul id="depot-result-items">
+
+      </ul>
+      <p id="depot-record-count"></p>
+      <input type="hidden" value="" id="depot-record-params"/>
+      <p><i>These records will be added to Energy Depot</i></p>
+    </div>
+    <div class="formButtons" style="text-align: right;">
+      <img src="template/esd/tpl/image/loadingCircular.gif" style="margin-right:10px;height:15px;width:15px;display:none;" id="depot-order-submit-loading-icon" />
+      <div class="button short">
+        <a href="#" id="submitEnergyDepot">Submit</a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dataFeedModal" class="modal-dialog subModal" style="width: 85%; height: 65%; min-width: 830px; display: none;">
+  <div class="content">
+    <div style="float:right;">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h1 style="font-size: 20px;">Data Feed</h1>
+    <div class="formArea" style="margin-bottom: 15px;">
+      <div id="cappedText" style="font-weight:bold; text-align:left; display:none;"></div>
+      <table id="dataFeedTable" class="defaultGrid" style="margin-left: auto; margin-right: auto;"></table>
+    </div>
+    <div class="formButtons" style="text-align: right;">
+      <div class="button short">
+        <a href="#" id="noneDataFeedOptions">None of these options</a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="bulkOptionsModal" class="modal-dialog" style="width: 90%; display: none;">
+  <div class="content">
+    <div  style="float:right;">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2>Bulk</h2>
+    <div class="formArea" style="">
+      <div id="bulkOptionsFirstStep" style="display:none;">
+				<h3>First Step</h3>
+				<div class="bulkOptionsFirstStepContent"></div>
+        <hr/>
+      </div>
+			<div id="bulkOptionsResults">
+	<div class="button" style="float: right;">
+		<a href="#" id="bulkOptionsModalBtn">Bulk Button</a>
+	</div>
+	<br /><br />
+	<hr/>
+				<div id="bulkOptionsWarningMsg" class="warning" style="text-align:left;"></div>
+	<div id="bulkOptionsErrorMsg" class="errorMessage" style="text-align:center;"></div>
+	<table id="bulkOptionsTable" class="defaultGrid" cellpadding="0" cellspacing="0" border="1" style="display:none;">
+		<thead></thead>
+		<tbody></tbody>
+	</table>
+			</div>
+    </div>
+    <br />
+    <div style="text-align: right;">
+      <div class="button short">
+        <a href="#" class="modalClose">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="createDocModal" class="modal-dialog" style="width: 600px; z-index: 100;">
+  <div class="content">
+    <div  style="float:right; ">
+      <a href="#" class="modalClose"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+    </div>
+    <h2 id="DblEntryModalHeader"></h2>
+    <div class="formArea" style="text-align: center;">
+      <div style="display:none;">
+        <div style="font-weight:bold; text-align:left;">
+          Required Fields
+        </div>
+        <div id="groupReqText" style="font-weight:bold; text-align:left; display:none;">
+
+        </div>
+        <span class="reqErrMsg errorMessage"></span>
+        <table id="req" style="margin-top:10px; text-align:left;">
+        </table>
+      </div>
+      <div style="display:none;">
+        <div style="font-weight:bold; text-align:left;">
+          Double Entry Fields
+          <span style="font-size:8pt; font-weight:normal;">(Please re-enter the following field(s) to verify entered values are correct)</span>
+        </div>
+        <span class="doubleErrMsg errorMessage"></span>
+          <input type="text" value="" style="display:none;" />
+        <table id="double" style="margin-top:10px; text-align:left;">
+        </table>
+      </div>
+    </div>
+    <div style="padding: 0px 60px; margin-top: 20px;">
+      <div class="button short" style="float: right;">
+        <a href="#" id="create">
+          Create
+				</a>
+      </div>
+      <div class="button short">
+        <a href="#" class="modalClose">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="scanLocHelpModal" class="modal-dialog subModal" style="width: 400px; height: 100px; display: none;">
+    <div class="content">
+        <div  style="float:right; ">
+            <a href="#" class="modalClose"id="closeUploadModal"><img alt="Close Modal" src="template/esd/tpl/image/icons/icon_delete.png"></a>
+        </div>
+        <div>
+            <p>
+                This setting does not affect where the entire batch inserts into in the existing record after upload.
+                This controls where images of new physical pages go, in the yet-to-be-uploaded batch.
+            </p>
+        </div>
+        <div style="text-align: right;">
+            <div class="button short" style="">
+                <a href="#" class="modalClose">
+                    Done
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+		<div id="ModalOverlay" style="display: none;"><div>&nbsp;</div></div>
+
+			</div>
+	<!-- move this to some place more portable -->
+	<div id="neu-hashtags"></div>
+	<!-- any file that include this file must include header.tpl -->
+
+<script language="javascript" src="template/esd/tpl/forgotpassword.js"></script>
+
+<script>
+  // ESD-2083 refactor: move these globals to header.tpl
+  g_loginPage = '0';
+  g_isForgotPassword = '';
+  g_loginUrl = 'index.php?_module_=esd&_action_=login';
+  csrfToken = "MTc1NjE5NTUwN0RTTWVFODZTTHgySW1SbXY3NndLQXZQbngwcWxMMVA1";
+</script>
+
+  <div id="questionModal" class="modal-dialog" style="width: auto; display:none;">
+    <div class="content">
+      <h2>Security Questions</h2>
+      <div class="formArea" style="text-align: left;">
+        <div style="margin-top:10px">
+          <div style="margin-bottom:10px; font-weight:bold;">You must select three different questions and enter an answer for each question.</div>
+          <table>
+            <tr><td rowspan="2" style="padding-bottom:10px;"><label for="securityQuestion_1">Question 1:</label></td><td><select id="securityQuestion_1"><option value="">Select a question</option></select><span class="errorMessage errMsg"></span></td></tr><tr><td style="padding-bottom:10px;"><label class="hiddenLabels" for="answerQuestion_1">Answer to question 1</label><input size="50" id="answerQuestion_1" type="text" /> <span class="errorMessage errMsg"></span></td></tr><tr><td rowspan="2" style="padding-bottom:10px;"><label for="securityQuestion_2">Question 2:</label></td><td><select id="securityQuestion_2"><option value="">Select a question</option></select><span class="errorMessage errMsg"></span></td></tr><tr><td style="padding-bottom:10px;"><label class="hiddenLabels" for="answerQuestion_2">Answer to question 2</label><input size="50" id="answerQuestion_2" type="text" /> <span class="errorMessage errMsg"></span></td></tr><tr><td rowspan="2" style="padding-bottom:10px;"><label for="securityQuestion_3">Question 3:</label></td><td><select id="securityQuestion_3"><option value="">Select a question</option></select><span class="errorMessage errMsg"></span></td></tr><tr><td style="padding-bottom:10px;"><label class="hiddenLabels" for="answerQuestion_3">Answer to question 3</label><input size="50" id="answerQuestion_3" type="text" /> <span class="errorMessage errMsg"></span></td></tr>          </table>
+        </div>
+      </div>
+      <div style="padding: 0px 60px; margin-top: 20px; text-align:right;">
+        <div class="button short">
+          <a href="#" id="saveQuesions" onclick="saveQuestions();">Save</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br />
+
+<div id="footer"  style="text-align:center; z-index:-1;">
+	<div>This site is protected by copyright and trademark laws under US and international law. All Rights Reserved  &copy 2000-2025. Powered by Neubus,Inc.</div>
+</div>
+</body>
+</html>    <script type="text/javascript">
+
+        var localization = {"init":"this is just init, please ignore it","localization.AddRemoveTags":"Add\/Remove Hashtags","localization.Batestamp":"Annotation","localization.BatestampIsRequired":"Annotation is required. Please enter an annotation.","localization.BatestampInvalid":"Invalid annotation. Please enter a valid annotation format.","localization.BatestampLocation":"Annotation Location","localization.BatestampShow":"Show Annotation","localization.BatestampPleaseEnter":"Please Enter Annotation:","localization.CreateDocGrpReqBulkEditError":"On at least one selected record, this bulk edit will remove the contents of the last remaining field that is part of a group of fields where it is mandatory for one of them to have contents. Please de-select all such records, or add in contents to one of the other fields in such groups, before proceeding with this bulk edit.","localization.CreateDocGrpReqEditError":"There is a group of fields where it is mandatory for one of them to have contents, and this edit would leave the record with all fields in this group blank. Please add in contents to one of the fields in this group before proceeding with this edit.","localization.EnergyDepot":"","localization.HomeProgram":"Home Program","localization.Hashtags":"Hashtags","localization.NoHashtags":"No Hashtags","localization.Program":"Program","localization.Programs":"Programs","localization.ProgramAccess":"Program Access","localization.SelectaProgram":"Select a Program","localization.Showing25RecodsDataFeed":"Results limited to 25.","localization.TargetProgram":"Target Program","localization.Thisdocumentmightmergetothetoporbottomofthetargetprogramdependingonthetargetprogramsetting":"This document might merge to the top or bottom of the target program, depending on the target program setting.","localization.uploadScreenMessage":"","localization.UserProfileAndRights":"User Profile & Rights","localization.Yourusersettingsareconfiguredsothatthiswilldeletetheoriginalwhenitpromotestothenewprogram":"Your user settings are configured so that this will delete the original when it transfers to the new program.","localization.UploadDocument":"Upload Document","localization.ScanDocument":"Scan Document","BATESTAMP_TYPE_AUTO-INCREMENT_LABEL":"Bates Stamp"};
+        var LOCALIZATION = {"init":"this is just init, please ignore it","localization.AddRemoveTags":"Add\/Remove Hashtags","localization.Batestamp":"Annotation","localization.BatestampIsRequired":"Annotation is required. Please enter an annotation.","localization.BatestampInvalid":"Invalid annotation. Please enter a valid annotation format.","localization.BatestampLocation":"Annotation Location","localization.BatestampShow":"Show Annotation","localization.BatestampPleaseEnter":"Please Enter Annotation:","localization.CreateDocGrpReqBulkEditError":"On at least one selected record, this bulk edit will remove the contents of the last remaining field that is part of a group of fields where it is mandatory for one of them to have contents. Please de-select all such records, or add in contents to one of the other fields in such groups, before proceeding with this bulk edit.","localization.CreateDocGrpReqEditError":"There is a group of fields where it is mandatory for one of them to have contents, and this edit would leave the record with all fields in this group blank. Please add in contents to one of the fields in this group before proceeding with this edit.","localization.EnergyDepot":"","localization.HomeProgram":"Home Program","localization.Hashtags":"Hashtags","localization.NoHashtags":"No Hashtags","localization.Program":"Program","localization.Programs":"Programs","localization.ProgramAccess":"Program Access","localization.SelectaProgram":"Select a Program","localization.Showing25RecodsDataFeed":"Results limited to 25.","localization.TargetProgram":"Target Program","localization.Thisdocumentmightmergetothetoporbottomofthetargetprogramdependingonthetargetprogramsetting":"This document might merge to the top or bottom of the target program, depending on the target program setting.","localization.uploadScreenMessage":"","localization.UserProfileAndRights":"User Profile & Rights","localization.Yourusersettingsareconfiguredsothatthiswilldeletetheoriginalwhenitpromotestothenewprogram":"Your user settings are configured so that this will delete the original when it transfers to the new program.","localization.UploadDocument":"Upload Document","localization.ScanDocument":"Scan Document","BATESTAMP_TYPE_AUTO-INCREMENT_LABEL":"Bates Stamp"};
+        var ESD_PUBLIC_DEFAULT_USER_NAME = "publicuser";
+        var DATE_FORMAT = "MM/DD/YYYY";
+        var DEFAULTDATE_FORMAT = "YYYY-MM-DD"; // special handler for jquery datepicker options
+        var DATEPICKER_FORMAT = "mm/dd/yy"; // special handler for jquery datepicker options
+    </script>
