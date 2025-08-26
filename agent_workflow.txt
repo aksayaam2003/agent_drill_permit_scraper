@@ -1,0 +1,75 @@
+## Executive Summary
+This document outlines requirements for the TexasPermitScraperAgent, an AI-powered automation agent designed to streamline the daily extraction and processing of new drilling permits and associated plat documentation from the Texas Railroad Commission website. The solution targets process automation, accuracy, and user-configurable flexibility, with structured data output and chat-based user interaction.
+
+## Goals & Objectives
+- Go to https://webapps2.rrc.texas.gov/EWA/drillingPermitsQueryAction.do
+- Automate the extraction of new drilling permits for selected Texas counties.
+- Capture and structure all key data fields for each permit.
+- Download associated plat files and attempt to determine unit size.
+- Support user-driven configuration (counties, date range) and output data for downstream workflows (dashboards, analytics, alerts).
+- Deliver a seamless chat-based user experience for initiation, monitoring, and review.
+
+## Scope (In/Out)
+### In Scope
+- Automated data extraction for user-specified counties and date ranges via config file.
+- Scraping paginated permit listings and detailed records, including plats.
+- Downloading, organizing, and referencing plat files.
+- Output to CSV format and organization of plat files.
+- Chat-based user interaction for initiation, configuration, and notification.
+
+### Out of Scope
+- Advanced data analysis or visualizations beyond structured export.
+- Integration with external analytics or dashboard platforms (initial release).
+- Non-public data sources or authentication-based scraping.
+
+## Inputs
+- Config file specifying county list and date range (support for batches; flexible structure).
+- Data source: Publicly accessible RRC Drilling Permit Query website.
+- Assumes no additional authentication or proprietary filters.
+- Agent validates standard inputs (e.g., valid county name, date not in future); logs and skips invalid records.
+
+## Processing & Logic
+- Supports pagination across multiple results pages per county/date.
+- Attempts up to three retries for failed or slow page loads before logging error/flagging.
+- For each permit:
+  - Extracts all visible, standard permit fields (e.g., Section, Block, and others available).
+  - Downloads associated plat file, attempts to parse/display unit size when possible (default logic; flag as unavailable if extraction fails).
+- Flags permits for manual review if plat cannot be downloaded or parsed.
+- Processes all records matching standard user filter criteria; excludes obviously invalid/corrupt entries.
+- Logs all actions, errors, and flags for transparency.
+
+## Outputs
+- CSV file of all extracted permits and key fields per run.
+- Plat file paths/links included in CSV; plat files organized in folders (by county/date or default convention).
+- No additional visualization/report generation (initial release).
+
+## User Interaction
+- All agent-user interactions occur within a chat window interface.
+- Users can configure runs (upload/edit config file), trigger scraping, and receive status/notifications via chat.
+- Agent returns run summary and exceptions (e.g., missing plats) within chat.
+
+## Performance & Constraints
+- Standard speed and run-time expectations (best efforts; runs complete promptly after triggering).
+- No explicit error rate tolerance, but agent designed for high completeness and clear manual review flags.
+- Files stored with standard file system security; assumes no special compliance beyond general best practice.
+- No hard tech stack or infrastructure constraints specified; deploy in a typical automation environment.
+- Cost and compute usage not a limiting factor for initial release.
+
+## Delivery & Notifications
+- CSV outputs and plat files delivered via chat window (upload/download functionality assumed), with files also saved locally as required.
+- Users notified in chat upon successful run, and also upon errors or exceptions (e.g., plat download failures).
+- Run logs and exception summaries available for troubleshooting within chat interface; standard audit logging assumed.
+
+## Future Extensions
+- Potential to integrate with dashboards, analytics, and alerting/monitoring platforms.
+- Scalability to support additional geographies or permit/document types.
+- Option for web UI, enhanced filtering, or advanced business logic.
+- Enhanced compliance controls and role-based user management as needed.
+
+---
+
+**Assumptions:**
+- "Standard" means best-practice industry conventions for unattended scraping tasks, file organization, user prompts, and exception handling.
+- All user clarifications, overrides, and escalations are funneled through the chat interface.
+- Plat "unit size" extraction logic may evolve following user feedback and field validation.
+- Any unaddressed specifics are flagged for stakeholder review during UAT.
