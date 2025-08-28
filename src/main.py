@@ -53,10 +53,10 @@ async def scrape_and_save_task(job_id: str, config: ScrapeConfig):
             df.to_csv(csv_path, index=False)
             jobs[job_id]['status'] = 'completed'
             jobs[job_id]['result_file'] = csv_path
-            logging.info(f"Job {job_id} completed successfully.")
+            # logging.info(f"Job {job_id} completed successfully.")
         else:
             jobs[job_id]['status'] = 'completed_with_no_data'
-            logging.info(f"Job {job_id} completed with no data.")
+            # logging.info(f"Job {job_id} completed with no data.")
 
     except Exception as e:
         logging.error(f"Job {job_id} failed: {e}")

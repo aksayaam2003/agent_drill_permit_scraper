@@ -5,6 +5,7 @@ This document outlines requirements for the TexasPermitScraperAgent, an AI-power
 - Go to https://webapps2.rrc.texas.gov/EWA/drillingPermitsQueryAction.do
 - Automate the extraction of new drilling permits for selected Texas counties.
 - Capture and structure all key data fields for each permit.
+- to download plat file go to https://rrcsearch3.neubus.com/esd3-rrc/index.php
 - Download associated plat files and attempt to determine unit size.
 - Support user-driven configuration (counties, date range) and output data for downstream workflows (dashboards, analytics, alerts).
 - Deliver a seamless chat-based user experience for initiation, monitoring, and review.

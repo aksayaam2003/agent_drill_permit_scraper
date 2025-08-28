@@ -1,0 +1,9 @@
+fastapi 
+uvicorn 
+pydantic 
+httpx 
+pyyaml 
+pandas 
+playwright 
+beautifulsoup4
+playwright install

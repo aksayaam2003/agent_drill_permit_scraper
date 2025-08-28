@@ -1,7 +1,5 @@
 counties:
   - MIDLAND
-  - ECTOR
-  - REEVES
 date_range:
   from: "01/01/2024"
   to: "01/31/2024"
